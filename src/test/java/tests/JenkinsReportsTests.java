@@ -4,10 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.text;
@@ -23,12 +20,13 @@ public class JenkinsReportsTests {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 10000;
-//        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
     @Test
+    @Tag("fillForm")
     void successFillingFormTest() {
         step("Открываем страницу регистрации пользователя",() -> {
             open("/automation-practice-form");
@@ -85,6 +83,7 @@ public class JenkinsReportsTests {
         });
     }
     @Test
+    @Tag("fillForm")
     void FildLastNameIsNotInTest() {
         step("Открываем страницу регистрации пользователя",() -> {
             open("/automation-practice-form");
@@ -112,5 +111,4 @@ public class JenkinsReportsTests {
         Attach.browserConsoleLogs();
         Attach.addVideo();
     }
-
 }
