@@ -1,11 +1,13 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
-
+import org.openqa.selenium.remote.DesiredCapabilities;
+import java.util.Map;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
@@ -14,15 +16,30 @@ import static io.qameta.allure.Allure.step;
 
 public class JenkinsReportsTests {
 
-    @BeforeAll
-    static void setupEnvironment() {
-        Configuration.browserSize = "1920x1080";
+    @BeforeEach
+    void setEnvironment(){
         Configuration.baseUrl = "https://demoqa.com";
-        //Configuration.pageLoadStrategy = "eager";
+        Configuration.browserSize = "1920x1080";
         Configuration.timeout = 10000;
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
-        SelenideLogger.addListener("allure", new AllureSelenide());
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("selenoid:options", Map.of(
+                "enableVNC", true,
+                "enableVideo", true
+        ));
+        Configuration.browserCapabilities = capabilities;
+
+        SelenideLogger.addListener("allure",new AllureSelenide());
+    }
+    @AfterEach
+    void addAttachments() {
+        Attach.screenshotAs("Last screenshot");
+        Attach.pageSource();
+        Attach.browserConsoleLogs();
+        Attach.addVideo();
+
+        Selenide.closeWebDriver();
     }
 
     @Test
@@ -62,9 +79,7 @@ public class JenkinsReportsTests {
             $("#city").click();
             $("#react-select-4-input").setValue("Noida").pressEnter();
         });
-        step("Нажимаем подтвердить", () ->{
-            $("#submit").click();
-        });
+        step("Нажимаем подтвердить", () -> $("#submit").click());
         step("Проверка данных в таблице регистрации", () ->{
             $(".modal-dialog").should(appear);
             $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
@@ -96,19 +111,11 @@ public class JenkinsReportsTests {
             $("#genterWrapper").find(byText("Male")).click();
             $("#userNumber").setValue("9001112222");
         });
-        step("Нажимаем подтвердить", () ->{
-            $("#submit").click();
-        });
+        step("Нажимаем подтвердить", () -> $("#submit").click());
         step("Проверяем, что таблица с регистрации отсутствует", () ->{
             $(".modal-content").shouldNot();
         });
     }
 
-    @AfterEach
-    void addAttachments() {
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-    }
+
 }
