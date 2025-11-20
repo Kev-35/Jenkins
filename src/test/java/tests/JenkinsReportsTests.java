@@ -116,6 +116,4 @@ public class JenkinsReportsTests {
             $(".modal-content").shouldNot();
         });
     }
-
-
 }
