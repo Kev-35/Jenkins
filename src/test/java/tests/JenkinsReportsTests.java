@@ -26,8 +26,8 @@ public class JenkinsReportsTests {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.of(
                 "enableVNC", true,
-                "enableVideo", true
-        ));
+                "enableVideo", true));
+
         Configuration.browserCapabilities = capabilities;
 
         SelenideLogger.addListener("allure",new AllureSelenide());
@@ -43,7 +43,7 @@ public class JenkinsReportsTests {
     }
 
     @Test
-    @Tag("fillForm")
+    @Tag("buildJenkins")
     void successFillingFormTest() {
         step("Открываем страницу регистрации пользователя",() -> {
             open("/automation-practice-form");
@@ -98,7 +98,7 @@ public class JenkinsReportsTests {
         });
     }
     @Test
-    @Tag("fillForm")
+    @Tag("buildJenkins")
     void FildLastNameIsNotInTest() {
         step("Открываем страницу регистрации пользователя",() -> {
             open("/automation-practice-form");

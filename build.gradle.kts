@@ -57,7 +57,7 @@ dependencies {
 
             testLogging {
                 lifecycle {
-                    events("started", "skipped", "failed", "standard_error", "standard_out")
+                    events("started", "skipped", "failed", "standard_error", "standard_out") // более расширенное логирование
                     // Замените "short" на TestExceptionFormat.SHORT
                     exceptionFormat = TestExceptionFormat.SHORT
                 }
@@ -67,9 +67,12 @@ dependencies {
 
 tasks.register("demoqa", Test::class) {
     useJUnitPlatform {
-        includeTags("fillForm") // запуск тестов по Тегу запуск
-//     (или в терминале, или в дженкинсе -> gradle demoqa
-//            excludeTags("Tag")
-//    исключает тесты по Тегу
+        includeTags("buildJenkins") // запуск тестов по Тегу запуск (или в терминале, или в дженкинсе ->
+    // gradle demoqa excludeTags("Tag") исключает тесты по Тегу
+    }
+}
+tasks.register("ParamsTest", Test::class) {
+    useJUnitPlatform {
+        includeTags("buildJenkinsWithParams")
     }
 }
