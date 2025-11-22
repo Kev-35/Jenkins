@@ -14,7 +14,7 @@ import java.util.Map;
 public class RemoteTestBase {
     @BeforeEach
     void setEnvironment(){
-        Configuration.baseUrl = System.getProperty("baseUrl");
+        Configuration.baseUrl = System.getProperty("baseUrl","https://demoqa.com");
         Configuration.browser = System.getProperty("browser","chrome");
         Configuration.browserVersion = System.getProperty("browserVersion","128.0");
         Configuration.browserSize = System.getProperty("browserSize","1920x1080");
