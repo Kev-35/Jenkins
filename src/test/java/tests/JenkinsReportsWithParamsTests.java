@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Configuration.baseUrl;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
@@ -25,7 +26,7 @@ public class JenkinsReportsWithParamsTests extends RemoteTestBase {
     @Tag("buildJenkinsWithParams")
     void successFillingFormTest() {
         step("Открываем страницу регистрации пользователя",() -> {
-            open("/automation-practice-form");
+            open(baseUrl + "/automation-practice-form");
             executeJavaScript("$('footer').remove();");
             executeJavaScript("$('#fixedban').remove();");
         });
@@ -81,7 +82,7 @@ public class JenkinsReportsWithParamsTests extends RemoteTestBase {
     @Tag("buildJenkinsWithParams")
     void FildLastNameIsNotInTest() {
         step("Открываем страницу регистрации пользователя",() -> {
-            open("/automation-practice-form");
+            open(baseUrl + "/automation-practice-form");
             executeJavaScript("$('footer').remove();");
             executeJavaScript("$('#fixedban').remove();");
         });
