@@ -52,17 +52,18 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.7")
 }
 
-        tasks.withType<Test> {
-            useJUnitPlatform()
+tasks.withType<Test> {
+    useJUnitPlatform()
+    @Suppress("UNCHECKED_CAST")
+    systemProperties(System.getProperties() as Map<String, Any>) //Явно приводим System.getProperties() к Map<String, Any>
 
-            testLogging {
-                lifecycle {
-                    events("started", "skipped", "failed", "standard_error", "standard_out") // более расширенное логирование
-                    // Замените "short" на TestExceptionFormat.SHORT
-                    exceptionFormat = TestExceptionFormat.SHORT
-                }
-            }
+    testLogging {
+        lifecycle {
+            events("started", "skipped", "failed", "standard_error", "standard_out")
+            exceptionFormat = TestExceptionFormat.SHORT
         }
+    }
+}
 
 
 tasks.register("demoqa", Test::class) {
@@ -71,7 +72,7 @@ tasks.register("demoqa", Test::class) {
     // gradle demoqa excludeTags("Tag") исключает тесты по Тегу
     }
 }
-tasks.register("ParamsTest", Test::class) {
+tasks.register("paramsTest", Test::class) {
     useJUnitPlatform {
         includeTags("buildJenkinsWithParams")
     }
