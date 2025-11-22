@@ -20,36 +20,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class JenkinsReportsWithParamsTests {
-
-    @BeforeEach
-    void setEnvironment(){
-        Configuration.baseUrl = System.getProperty("baseUrl","https://demoqa.com");
-        Configuration.browser = System.getProperty("browser","chrome");
-        Configuration.browserVersion = System.getProperty("browserVersion","128.0");
-        Configuration.browserSize = System.getProperty("browserSize","1920x1080");
-        Configuration.remote = System.getProperty("remoteSelenoidUrl", "https://user1:1234@selenoid.autotests.cloud/wd/hub");
-        Configuration.timeout = 10000;
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("selenoid:options", Map.of(
-                "enableVNC", true,
-                "enableVideo", true));
-
-        Configuration.browserCapabilities = capabilities;
-
-        SelenideLogger.addListener("allure",new AllureSelenide());
-    }
-    @AfterEach
-    void addAttachments() {
-
-        Attach.screenshotAs("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
-
-        Selenide.closeWebDriver();
-    }
+public class JenkinsReportsWithParamsTests extends RemoteTestBase {
 
     @Test
     @Tag("buildJenkinsWithParams")
@@ -111,7 +82,7 @@ public class JenkinsReportsWithParamsTests {
     @Tag("buildJenkinsWithParams")
     void FildLastNameIsNotInTest() {
         step("Открываем страницу регистрации пользователя",() -> {
-            open(baseUrl + "/automation-practice-form");
+            open("/automation-practice-form");
             executeJavaScript("$('footer').remove();");
             executeJavaScript("$('#fixedban').remove();");
         });
