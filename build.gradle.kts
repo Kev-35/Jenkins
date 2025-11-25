@@ -77,3 +77,8 @@ tasks.register("paramsTest", Test::class) {
         includeTags("buildJenkinsWithParams")
     }
 }
+tasks.register("telegramBot", Test::class) {
+    useJUnitPlatform {
+        includeTags("TelegramBot")
+    }
+}
